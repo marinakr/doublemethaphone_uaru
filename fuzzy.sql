@@ -1,3 +1,11 @@
+CREATE OR REPLACE FUNCTION left_suffix(uname TEXT, n INTEGER)
+RETURNS TEXT AS $$
+BEGIN
+  RETURN left(uname, length(uname) - n);
+END;
+$$
+LANGUAGE plpgsql;
+
 CREATE OR REPLACE FUNCTION known_char(uname TEXT)
 RETURNS TEXT AS $$
 DECLARE
