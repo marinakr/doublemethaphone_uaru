@@ -18,4 +18,11 @@ select MetaPhoneUaRuLastName2('шфорснігир') = MetaPhoneUaRuLastName2('
  t
 (1 row)
 
+
+select  MetaPhoneUaRuLastName2('швартсцсенеггер');
+ metaphoneuarulastname2
+------------------------
+ ШФРСНКР
+(1 row)
+
 ```

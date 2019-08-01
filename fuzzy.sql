@@ -103,9 +103,9 @@ BEGIN
         END IF;
         SELECT right(uname, length(uname) - 2) INTO uname;
       ELSIF ('ДТЦC' like '%'||prev_char||'%') and (curr_char = 'С' or curr_char = 'Ц') THEN
-        SELECT buffname || 'С' INTO buffname;
-        SELECT right(uname, length(uname) - 2) INTO uname;
+        SELECT right(uname, length(uname) - 1) INTO uname;
       ELSE
+        IF curr_char = 'Ц' THEN SELECT 'С' INTO curr_char; END IF;
         IF prev_char <> curr_char THEN
           SELECT buffname || prev_char INTO buffname;
         END IF;
@@ -120,6 +120,7 @@ BEGIN
 END;
 $$
 LANGUAGE plpgsql;
+
 
 CREATE OR REPLACE FUNCTION lastname_replace(uname TEXT)
 RETURNS TEXT AS $$
