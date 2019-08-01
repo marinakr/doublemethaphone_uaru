@@ -16,8 +16,8 @@ BEGIN
   SELECT substr(uname, 1, 1) INTO prev_char;
   IF 'ОЄЕАИУЭЮЯЁЫІЇПСТРКЛМНБВГҐДЖЗЙФХЦЧШЩ' LIKE '%'||prev_char||'%' THEN
   SELECT buffname || prev_char INTO buffname;
-  SELECT right(uname, length(uname) - 1) INTO uname;
   END  IF;
+  SELECT right(uname, length(uname) - 1) INTO uname;
 END LOOP;
 RETURN   buffname;
 END;
