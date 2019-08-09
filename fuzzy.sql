@@ -115,18 +115,21 @@ CREATE OR REPLACE FUNCTION left_suffix(uname TEXT, n INTEGER) RETURNS TEXT AS $$
     $$ LANGUAGE PLPGSQL;
 
 
-CREATE OR REPLACE FUNCTION lastname_replace(uname TEXT) RETURNS TEXT AS $$
+CREATE OR REPLACE FUNCTION lastname_replace(uname TEXT)
+    RETURNS TEXT AS $$
     DECLARE buffname text = '';
     BEGIN
     /*called after init replace*/
-    IF right(uname, 5) in ('ІАНКА') THEN
+    IF right(uname, 5) in ('ІАНКА', 'ІАНКО') THEN
       RETURN  left_suffix(uname, 5)||'@';
     ELSIF right(uname, 4) in ('ІНКА', 'ІНКО') THEN
       RETURN  left_suffix(uname, 4)||'@';
-    ELSIF right(uname, 7) in ('ІАВСКІЙ') THEN
-      RETURN left_suffix(uname, 7)||'*';
-    ELSIF right(uname, 6) in ('АВСКІЙ', 'ІВСКІЙ', 'ОВСКІЙ') THEN
+    ELSIF right(uname, 6) in ('ІАВСКІ') THEN
       RETURN left_suffix(uname, 6)||'*';
+    ELSIF right(uname, 5) in ('АВСКІ', 'ІВСКІ', 'ОВСКІ') THEN
+      RETURN left_suffix(uname, 5)||'*';
+    ELSIF right(uname, 8) in ('ІАВСКАІА') THEN
+      RETURN left_suffix(uname, 8)||'#';
     ELSIF right(uname, 7) in ('АВСКАІА', 'ІВСКАІА', 'ОВСКАІА') THEN
       RETURN left_suffix(uname, 7)||'#';
     ELSIF right(uname, 5) in ('АВСКА', 'ІВСКА', 'ОВСКА') THEN
@@ -135,22 +138,26 @@ CREATE OR REPLACE FUNCTION lastname_replace(uname TEXT) RETURNS TEXT AS $$
       RETURN left_suffix(uname, 5)||'^';
     ELSIF right(uname, 3) in ('СКА', 'ЦКА') THEN
       RETURN left_suffix(uname, 3)||'^';
-    ELSIF right(uname, 3) in ('ІВА') THEN
+    ELSIF right(uname, 4) in ('ТСКІ') THEN
+      RETURN left_suffix(uname, 4)||'&';
+    ELSIF right(uname, 3) in ('СКІ', 'ЦКІ') THEN
+      RETURN left_suffix(uname, 3)||'&';
+    ELSIF right(uname, 3) in ('ІВА', 'ОВА', 'АВА') THEN
       RETURN left_suffix(uname, 3)||'9';
-    ELSIF right(uname, 5) in ('АВАІА') THEN
+    ELSIF right(uname, 6) in ('ІАВАІА') THEN
+      RETURN left_suffix(uname, 6)||'9';
+    ELSIF right(uname, 5) in ('АВАІА', 'ОВАІА', 'ІВАІА') THEN
       RETURN left_suffix(uname, 5)||'9';
-    ELSIF right(uname, 3) in ('АВА') THEN
-      RETURN left_suffix(uname, 3)||'9';
+    ELSIF right(uname, 4) in ('ІАВА') THEN
+      RETURN left_suffix(uname, 4)||'9';
     ELSIF right(uname, 4) in ('ІАІВ') THEN
       RETURN left_suffix(uname, 4)||'8';
     ELSIF right(uname, 3) in ('ІОВ') THEN
       RETURN left_suffix(uname, 3)||'8';
-    ELSIF right(uname, 2) in ('ОВ') THEN
+    ELSIF right(uname, 2) in ('ОВ', 'ІВ', 'АВ') THEN
       RETURN left_suffix(uname, 2)||'8';
-    ELSIF right(uname, 2) in ('ІВ') THEN
-      RETURN left_suffix(uname, 2)||'8';
-    ELSIF right(uname, 2) in ('АВ') THEN
-      RETURN left_suffix(uname, 2)||'8';
+    ELSIF right(uname, 5) in ('ІНАІА') THEN
+      RETURN left_suffix(uname, 5)||'7';
     ELSIF right(uname, 3) in ('ІНА') THEN
       RETURN left_suffix(uname, 3)||'7';
     ELSIF right(uname, 2) in ('ІН') THEN
@@ -159,21 +166,24 @@ CREATE OR REPLACE FUNCTION lastname_replace(uname TEXT) RETURNS TEXT AS $$
       RETURN left_suffix(uname, 3)||'5';
     ELSIF right(uname, 2) in ('УК') THEN
       RETURN left_suffix(uname, 2)||'5';
+    ELSIF right(uname, 2) in ('ІХ') THEN
+      RETURN left_suffix(uname, 2)||'3';
+    ELSIF right(uname, 2) in ('ІК') THEN
+      RETURN left_suffix(uname, 2)||'2';
+    ELSIF right(uname, 2) in ('КА', 'КО') THEN
+      RETURN left_suffix(uname, 2)||'1';
     ELSIF right(uname, 3) in ('АІА') THEN
       RETURN left_suffix(uname, 3)||'4';
-    ELSIF right(uname, 2) in ('ІЙ') THEN
-      RETURN left_suffix(uname, 2)||'3';
-    ELSIF right(uname, 2) in ('ІХ') THEN
-      RETURN left_suffix(uname, 2)||'2';
-    ELSIF right(uname, 2) in ('ІК') THEN
-      RETURN left_suffix(uname, 2)||'1';
-    ELSIF right(uname, 2) in ('КА') THEN
-      RETURN left_suffix(uname, 2)||'0';
+    ELSIF right(uname, 1) in ('А') THEN
+      RETURN left_suffix(uname, 1)||'4';
+    ELSIF right(uname, 1) in ('І') THEN
+      RETURN left_suffix(uname, 1)||'0';
     ELSE
       RETURN uname;
     END IF;
     END;
-    $$ LANGUAGE PLPGSQL;
+    $$
+    LANGUAGE plpgsql;
 
 
 CREATE OR REPLACE FUNCTION MetaPhoneUaRuLastName2(uname TEXT) RETURNS TEXT AS $$
