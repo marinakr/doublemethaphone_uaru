@@ -90,8 +90,7 @@ CREATE OR REPLACE FUNCTION consonant_replace(uname TEXT) RETURNS TEXT AS $$
             END IF;
             SELECT right(uname, length(uname) - 2) INTO uname;
           ELSIF ('ДТЦC' like '%'||prev_char||'%') and (curr_char = 'С' or curr_char = 'Ц') THEN
-            SELECT right(uname, length(uname) - 2) INTO uname;
-            SELECT buffname||'С' INTO buffname;
+            SELECT 'С'||right(uname, length(uname) - 2) INTO uname;
           ELSE
             IF curr_char = 'Ц' THEN SELECT 'С' INTO curr_char; END IF;
             IF prev_char <> curr_char THEN
